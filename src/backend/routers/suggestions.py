@@ -5,6 +5,7 @@ Endpoints for class suggestions
 from fastapi import APIRouter, HTTPException
 from typing import Dict, Any
 from pydantic import BaseModel
+import re
 
 from ..database import suggestions_collection
 
@@ -35,20 +36,22 @@ def create_suggestion(suggestion: SuggestionCreate) -> Dict[str, Any]:
     if not suggestion.category:
         raise HTTPException(status_code=400, detail="Category is required")
     
+    # Validate email format
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    if not re.match(email_pattern, suggestion.email):
+        raise HTTPException(status_code=400, detail="Invalid email format")
+    
     # Create the suggestion document
     suggestion_doc = {
         "class_name": suggestion.class_name.strip(),
         "description": suggestion.description.strip(),
         "category": suggestion.category,
-        "email": suggestion.email,
+        "email": suggestion.email.strip().lower(),
         "status": "pending"
     }
     
     # Insert into database
     result = suggestions_collection.insert_one(suggestion_doc)
-    
-    if not result.inserted_id:
-        raise HTTPException(status_code=500, detail="Failed to save suggestion")
     
     return {
         "message": "Thank you for your suggestion! We'll review it soon.",

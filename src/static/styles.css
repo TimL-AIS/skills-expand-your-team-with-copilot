@@ -665,6 +665,26 @@ footer {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
+/* Suggest Link in Header */
+.suggest-link-container {
+  margin-top: 10px;
+}
+
+.suggest-link {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  font-size: 0.9rem;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.suggest-link:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 /* Suggestion Page Styles */
 .suggestion-intro {
   background-color: var(--info-light);
