@@ -20,8 +20,7 @@ class SuggestionCreate(BaseModel):
     category: str
     email: str
 
-@router.post("", response_model=Dict[str, Any])
-@router.post("/", response_model=Dict[str, Any])
+@router.post("")
 def create_suggestion(suggestion: SuggestionCreate) -> Dict[str, Any]:
     """
     Submit a new class suggestion
@@ -36,8 +35,8 @@ def create_suggestion(suggestion: SuggestionCreate) -> Dict[str, Any]:
     if not suggestion.category:
         raise HTTPException(status_code=400, detail="Category is required")
     
-    # Validate email format
-    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    # Validate email format (consistent with frontend validation)
+    email_pattern = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
     if not re.match(email_pattern, suggestion.email):
         raise HTTPException(status_code=400, detail="Invalid email format")
     
