@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suggest a New Class - Mergington High School</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Mergington High School</h1>
+      <h2>Suggest a New Class</h2>
+    </header>
+
+    <main>
+      <section id="suggestion-container">
+        <div class="suggestion-intro">
+          <p>Have an idea for a new extracurricular activity? We'd love to hear from you! Share your suggestions below and help us expand our offerings.</p>
+        </div>
+
+        <form id="suggestion-form" class="suggestion-form">
+          <div class="form-group">
+            <label for="class-name">Class Name: <span class="required">*</span></label>
+            <input
+              type="text"
+              id="class-name"
+              name="class_name"
+              required
+              placeholder="e.g., Photography Club, Cooking Class"
+              maxlength="100"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description: <span class="required">*</span></label>
+            <textarea
+              id="description"
+              name="description"
+              required
+              placeholder="Describe what the class would be about..."
+              rows="5"
+              maxlength="500"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Category: <span class="required">*</span></label>
+            <select id="category" name="category" required>
+              <option value="">Select a category...</option>
+              <option value="sports">Sports</option>
+              <option value="arts">Arts</option>
+              <option value="academic">Academic</option>
+              <option value="community">Community</option>
+              <option value="technology">Technology</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Your Email: <span class="required">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="your-email@mergington.edu"
+            />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="submit-button">Submit Suggestion</button>
+            <a href="index.html" class="back-link">Back to Activities</a>
+          </div>
+        </form>
+
+        <div id="message" class="hidden message"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2023 Mergington High School</p>
+    </footer>
+
+    <script src="suggest.js"></script>
+  </body>
+</html>

@@ -664,3 +664,114 @@ footer {
 #logout-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
+
+/* Suggestion Page Styles */
+.suggestion-intro {
+  background-color: var(--info-light);
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--info);
+}
+
+.suggestion-intro p {
+  color: var(--info);
+  line-height: 1.6;
+}
+
+.suggestion-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.suggestion-form .form-group {
+  margin-bottom: 20px;
+}
+
+.suggestion-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.suggestion-form .required {
+  color: var(--error);
+}
+
+.suggestion-form input[type="text"],
+.suggestion-form input[type="email"],
+.suggestion-form textarea,
+.suggestion-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-family: Arial, sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.suggestion-form input[type="text"]:focus,
+.suggestion-form input[type="email"]:focus,
+.suggestion-form textarea:focus,
+.suggestion-form select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
+}
+
+.suggestion-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.submit-button {
+  flex: 1;
+  padding: 12px 24px;
+  background-color: var(--primary);
+  color: var(--primary-text);
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: var(--primary-light);
+}
+
+.submit-button:active {
+  background-color: var(--primary-dark);
+}
+
+.back-link {
+  padding: 12px 24px;
+  color: var(--primary);
+  text-decoration: none;
+  border: 1px solid var(--primary);
+  border-radius: 5px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-link:hover {
+  background-color: var(--primary);
+  color: var(--primary-text);
+}
+
+#suggestion-container .message {
+  margin-top: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
