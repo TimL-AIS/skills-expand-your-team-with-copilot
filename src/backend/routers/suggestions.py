@@ -4,7 +4,7 @@ Endpoints for class suggestions
 
 from fastapi import APIRouter, HTTPException
 from typing import Dict, Any
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 from ..database import suggestions_collection
 
@@ -17,7 +17,7 @@ class SuggestionCreate(BaseModel):
     class_name: str
     description: str
     category: str
-    email: EmailStr
+    email: str
 
 @router.post("", response_model=Dict[str, Any])
 @router.post("/", response_model=Dict[str, Any])
