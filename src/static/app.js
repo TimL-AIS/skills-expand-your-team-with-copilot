@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Authentication state
   let currentUser = null;
 
+  // School name constant
+  const SCHOOL_NAME = "Mergington High School";
+
   // Time range mappings for the dropdown
   const timeRanges = {
     morning: { start: "06:00", end: "08:00" }, // Before school hours
@@ -475,7 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to create share URLs for an activity
   function createShareUrls(activityName, description, schedule) {
     const pageUrl = window.location.href;
-    const shareText = `Check out ${activityName} at Mergington High School! ${description} Schedule: ${schedule}`;
+    const shareText = `Check out ${activityName} at ${SCHOOL_NAME}! ${description} Schedule: ${schedule}`;
     const encodedText = encodeURIComponent(shareText);
     const encodedUrl = encodeURIComponent(pageUrl);
     const encodedName = encodeURIComponent(activityName);
@@ -483,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
       twitter: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
-      email: `mailto:?subject=${encodedName} - Mergington High School&body=${encodedText}%0A%0A${pageUrl}`,
+      email: `mailto:?subject=${encodedName} - ${SCHOOL_NAME}&body=${encodedText}%0A%0A${pageUrl}`,
       copy: pageUrl
     };
   }
@@ -491,11 +494,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to handle copy link
   function handleCopyLink(event, url) {
     event.preventDefault();
-    navigator.clipboard.writeText(url).then(() => {
-      showMessage("Link copied to clipboard!", "success");
-    }).catch(() => {
-      showMessage("Failed to copy link", "error");
-    });
+    
+    // Check if clipboard API is available
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => {
+        showMessage("Link copied to clipboard!", "success");
+      }).catch(() => {
+        showMessage("Failed to copy link", "error");
+      });
+    } else {
+      // Fallback for browsers without clipboard API
+      showMessage("Copy this link: " + url, "info");
+    }
   }
 
   // Function to render a single activity card
