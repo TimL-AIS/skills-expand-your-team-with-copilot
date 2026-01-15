@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Authentication state
   let currentUser = null;
 
+  // School name constant
+  const SCHOOL_NAME = "Mergington High School";
+
   // Time range mappings for the dropdown
   const timeRanges = {
     morning: { start: "06:00", end: "08:00" }, // Before school hours
@@ -472,6 +475,39 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Function to create share URLs for an activity
+  function createShareUrls(activityName, description, schedule) {
+    const pageUrl = window.location.href;
+    const shareText = `Check out ${activityName} at ${SCHOOL_NAME}! ${description} Schedule: ${schedule}`;
+    const encodedText = encodeURIComponent(shareText);
+    const encodedUrl = encodeURIComponent(pageUrl);
+    const encodedName = encodeURIComponent(activityName);
+    
+    return {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
+      twitter: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
+      email: `mailto:?subject=${encodedName} - ${SCHOOL_NAME}&body=${encodedText}%0A%0A${pageUrl}`,
+      copy: pageUrl
+    };
+  }
+
+  // Function to handle copy link
+  function handleCopyLink(event, url) {
+    event.preventDefault();
+    
+    // Check if clipboard API is available
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => {
+        showMessage("Link copied to clipboard!", "success");
+      }).catch(() => {
+        showMessage("Failed to copy link", "error");
+      });
+    } else {
+      // Fallback for browsers without clipboard API
+      showMessage("Copy this link: " + url, "info");
+    }
+  }
+
   // Function to render a single activity card
   function renderActivityCard(name, details) {
     const activityCard = document.createElement("div");
@@ -499,6 +535,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
 
+    // Create share URLs
+    const shareUrls = createShareUrls(name, details.description, formattedSchedule);
+
     // Create activity tag
     const tagHtml = `
       <span class="activity-tag" style="background-color: ${typeInfo.color}; color: ${typeInfo.textColor}">
@@ -519,6 +558,29 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
+    // Create share buttons
+    const shareButtons = `
+      <div class="share-buttons">
+        <span class="share-label">Share:</span>
+        <a href="${shareUrls.facebook}" target="_blank" rel="noopener noreferrer" class="share-btn tooltip" aria-label="Share on Facebook">
+          📘
+          <span class="tooltip-text">Share on Facebook</span>
+        </a>
+        <a href="${shareUrls.twitter}" target="_blank" rel="noopener noreferrer" class="share-btn tooltip" aria-label="Share on Twitter">
+          🐦
+          <span class="tooltip-text">Share on Twitter</span>
+        </a>
+        <a href="${shareUrls.email}" class="share-btn tooltip" aria-label="Share via Email">
+          📧
+          <span class="tooltip-text">Share via Email</span>
+        </a>
+        <button class="share-btn copy-link-btn tooltip" data-url="${shareUrls.copy}" aria-label="Copy link">
+          🔗
+          <span class="tooltip-text">Copy link</span>
+        </button>
+      </div>
+    `;
+
     activityCard.innerHTML = `
       ${tagHtml}
       <h4>${name}</h4>
@@ -528,6 +590,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <span class="tooltip-text">Regular meetings at this time throughout the semester</span>
       </p>
       ${capacityIndicator}
+      ${shareButtons}
       <div class="participants-list">
         <h5>Current Participants:</h5>
         <ul>
@@ -576,6 +639,14 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteButtons.forEach((button) => {
       button.addEventListener("click", handleUnregister);
     });
+
+    // Add click handler for copy link button
+    const copyLinkBtn = activityCard.querySelector(".copy-link-btn");
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener("click", (e) => {
+        handleCopyLink(e, copyLinkBtn.dataset.url);
+      });
+    }
 
     // Add click handler for register button (only when authenticated)
     if (currentUser) {
